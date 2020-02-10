@@ -1,12 +1,13 @@
 'use strict';
+// Массивы
+var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
+var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
-var wizardName = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var wizardSurname = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var coatColor = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var eyesColor = ['black', 'red', 'blue', 'yellow', 'green'];
-
-var randomElement = function (array) {
-  return array[Math.floor(Math.random() * array.length)];
+// Генерируем рандомное число
+var getRandomElement = function (elements) {
+  return elements[Math.floor(Math.random() * elements.length)];
 };
 
 var userDialog = document.querySelector('.setup');
@@ -18,29 +19,30 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
     .content
     .querySelector('.setup-similar-item');
 
-var wizards = [
-  {
-    name: randomElement(wizardName) + ' ' + randomElement(wizardSurname),
-    coatColor: randomElement(coatColor),
-    eyesColor: randomElement(eyesColor)
-  },
-  {
-    name: randomElement(wizardName) + ' ' + randomElement(wizardSurname),
-    coatColor: randomElement(coatColor),
-    eyesColor: randomElement(eyesColor)
-  },
-  {
-    name: randomElement(wizardName) + ' ' + randomElement(wizardSurname),
-    coatColor: randomElement(coatColor),
-    eyesColor: randomElement(eyesColor)
-  },
-  {
-    name: randomElement(wizardName) + ' ' + randomElement(wizardSurname),
-    coatColor: randomElement(coatColor),
-    eyesColor: randomElement(eyesColor)
-  }
-];
+// Генерируем случайного мага
+var getRandomWizard = function () {
+  var randomWizard =
+    {
+      name: getRandomElement(WIZARD_NAMES) + ' ' + getRandomElement(WIZARD_SURNAMES),
+      coatColor: getRandomElement(COAT_COLORS),
+      eyesColor: getRandomElement(EYES_COLORS)
+    };
 
+  return randomWizard;
+};
+
+// Генерируем массив с магами
+var getWizardsArr = function (number) {
+  var wizards = [];
+
+  for (var i = 0; i < number; i++) {
+    wizards.push(getRandomWizard());
+  }
+
+  return wizards;
+};
+
+var createWizards = getWizardsArr(4);
 
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -53,8 +55,8 @@ var renderWizard = function (wizard) {
 };
 
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
+for (var i = 0; i < createWizards.length; i++) {
+  fragment.appendChild(renderWizard(createWizards[i]));
 }
 similarListElement.appendChild(fragment);
 
